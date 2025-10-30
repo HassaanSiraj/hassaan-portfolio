@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useTheme } from '@/context/ThemeContext'
 import { Mail, MapPin, Coffee, Github, Linkedin, Send, Loader } from 'lucide-react'
-import emailjs from 'emailjs-com'
+import emailjs from '@emailjs/browser'
 
 const Contact = () => {
   const { theme } = useTheme()
