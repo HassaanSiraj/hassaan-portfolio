@@ -16,8 +16,8 @@ const Contact = () => {
     {
       icon: <Mail size={24} />,
       label: 'Email',
-      value: 'hassaan@example.com',
-      link: 'mailto:hassaan@example.com',
+      value: 'work.hassaan.siraj@gmail.com',
+      link: 'mailto:work.hassaan.siraj@gmail.com',
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
@@ -38,19 +38,19 @@ const Contact = () => {
     {
       name: 'GitHub',
       icon: <Github size={24} />,
-      link: 'https://github.com/hassaansiraj',
+      link: 'https://github.com/HassaanSiraj',
       color: 'hover:text-gray-300',
     },
     {
       name: 'LinkedIn',
       icon: <Linkedin size={24} />,
-      link: 'https://linkedin.com/in/hassaansiraj',
+      link: 'https://www.linkedin.com/in/hassaansiraj/',
       color: 'hover:text-blue-400',
     },
     {
       name: 'Email',
       icon: <Mail size={24} />,
-      link: 'mailto:hassaan@example.com',
+      link: 'mailto:work.hassaan.siraj@gmail.com',
       color: 'hover:text-purple-400',
     },
   ]
