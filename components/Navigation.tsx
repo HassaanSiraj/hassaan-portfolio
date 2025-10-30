@@ -2,12 +2,19 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Moon, Sun } from 'lucide-react'
+import { useTheme } from '@/context/ThemeContext'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,9 +33,10 @@ const Navigation = () => {
   ]
 
   const handleLetsTalk = () => {
-    // Opens LinkedIn messaging - sends message intent to your profile
     window.open('https://www.linkedin.com/in/hassaansiraj/', '_blank')
   }
+
+  if (!mounted) return null
 
   return (
     <motion.nav
@@ -79,15 +87,64 @@ const Navigation = () => {
             >
               Let's Talk
             </motion.button>
+
+            {/* Desktop Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className="p-3 rounded-full glass-strong hover:scale-110 transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                boxShadow: theme === 'light' 
+                  ? '0 0 20px rgba(255, 193, 7, 0.3)' 
+                  : '0 0 20px rgba(147, 112, 219, 0.3)',
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <motion.div
+                initial={false}
+                animate={{ rotate: theme === 'light' ? 180 : 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {theme === 'light' ? (
+                  <Sun size={24} className="text-yellow-400" />
+                ) : (
+                  <Moon size={24} className="text-purple-400" />
+                )}
+              </motion.div>
+            </motion.button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu and Theme Toggle */}
+          <div className="md:hidden flex items-center gap-3">
+            {/* Mobile Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2 rounded-full glass-strong hover:scale-110 transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div
+                initial={false}
+                animate={{ rotate: theme === 'light' ? 180 : 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {theme === 'light' ? (
+                  <Sun size={20} className="text-yellow-400" />
+                ) : (
+                  <Moon size={20} className="text-purple-400" />
+                )}
+              </motion.div>
+            </motion.button>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="text-white"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
