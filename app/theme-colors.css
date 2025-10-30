@@ -1,0 +1,96 @@
+/* Dark Mode (Default) */
+:root.dark-mode {
+  --background: #0a0a0f;
+  --foreground: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-strong-bg: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+/* Light Mode */
+:root.light-mode {
+  --background: #a8e6f5;
+  --foreground: #1a1a1a;
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --card-strong-bg: rgba(255, 255, 255, 0.25);
+  --text-primary: #1a1a1a;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --border: rgba(0, 0, 0, 0.08);
+}
+
+/* Apply theme colors */
+:root.dark-mode {
+  color-scheme: dark;
+}
+
+:root.light-mode {
+  color-scheme: light;
+}
+
+:root.light-mode body {
+  background-color: #a8e6f5;
+  color: #1a1a1a;
+}
+
+:root.light-mode .glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+:root.light-mode .glass:hover {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .glass-strong {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .glass-strong:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+:root.light-mode section {
+  background-color: #a8e6f5;
+}
+
+:root.light-mode .text-white {
+  color: #1a1a1a;
+}
+
+:root.light-mode .text-gray-300 {
+  color: #4b5563;
+}
+
+:root.light-mode .text-gray-400 {
+  color: #6b7280;
+}
+
+:root.light-mode .text-gray-500 {
+  color: #9ca3af;
+}
+
+/* Light mode heading colors */
+:root.light-mode h1,
+:root.light-mode h2,
+:root.light-mode h3,
+:root.light-mode h4 {
+  color: #1a1a1a;
+}
+
+/* Light mode background overlays */
+:root.light-mode .bg-\[#0a0a0f\] {
+  background: #f8f9fa;
+}
+
+:root.light-mode .bg-\[\#1a1a2e\] {
+  background: #e8ecf1;
+}
