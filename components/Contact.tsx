@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useTheme } from '@/context/ThemeContext'
-import { Mail, MapPin, Coffee, Github, Linkedin, Send } from 'lucide-react'
+import { Mail, MapPin, Coffee, Github, Linkedin, Send, Loader } from 'lucide-react'
+import emailjs from 'emailjs-com'
 
 const Contact = () => {
   const { theme } = useTheme()
@@ -11,6 +13,57 @@ const Contact = () => {
     triggerOnce: true,
     threshold: 0.1,
   })
+
+  // Form state
+  const [formData, setFormData] = useState({
+    from_name: '',
+    from_email: '',
+    message: '',
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!)
+  }, [])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setSubmitStatus('idle')
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          name: formData.from_name,
+          email: formData.from_email,
+          message: formData.message,
+          
+          time: new Date().toLocaleString(),
+        }
+      )
+      setSubmitStatus('success')
+      setFormData({ from_name: '', from_email: '', message: '' })
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+    } catch (error) {
+      console.error('Email error:', error)
+      setSubmitStatus('error')
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const contactInfo = [
     {
@@ -56,7 +109,7 @@ const Contact = () => {
   ]
 
   return (
-    <section id="contact" className={`relative py-20 sm:py-32 overflow-hidden ${theme === 'light' ? 'bg-sky-200' : ''}`}>
+    <section id="contact" className={`relative py-12 sm:py-16 overflow-hidden ${theme === 'light' ? 'bg-sky-200' : ''}`}>
       {/* Background with breathing */}
       <div className={`absolute inset-0 ${theme === 'light' ? 'bg-gradient-to-b from-sky-200 via-sky-100 to-sky-200' : 'bg-gradient-to-b from-[#0a0a0f] via-[#1a1a2e] to-[#0a0a0f]'}`}></div>
       <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${theme === 'light' ? 'bg-purple-300/20' : 'bg-purple-500/10'} rounded-full blur-3xl gentle-pulse`}></div>
@@ -127,7 +180,7 @@ const Contact = () => {
             ))}
           </div>
 
-          {/* Main CTA Card */}
+          {/* Main CTA Card with Contact Form */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -148,19 +201,84 @@ const Contact = () => {
               <h3 className="text-3xl font-bold mb-4 gradient-text">
                 Ready to Start Your Project?
               </h3>
-              <p className="text-gray-300 mb-8 text-lg">
+              <p className={`mb-8 text-lg ${theme === 'light' ? 'text-slate-700' : 'text-gray-300'}`}>
                 I'm currently available for freelance work and full-time opportunities. 
                 Let's discuss how I can help bring your ideas to life.
               </p>
               
-              <motion.a
-                href="mailto:hassaan@example.com"
-                className="inline-block px-8 py-4 bg-gradient-cyber rounded-full text-white font-semibold text-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Send Me an Email
-              </motion.a>
+              <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    name="from_name"
+                    placeholder="Your Name"
+                    value={formData.from_name}
+                    onChange={handleChange}
+                    required
+                    className={`w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all ${theme === 'light' ? 'bg-sky-100/50 border-sky-300 text-slate-900 placeholder-slate-600' : ''}`}
+                  />
+                  
+                  <input
+                    type="email"
+                    name="from_email"
+                    placeholder="Your Email"
+                    value={formData.from_email}
+                    onChange={handleChange}
+                    required
+                    className={`w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all ${theme === 'light' ? 'bg-sky-100/50 border-sky-300 text-slate-900 placeholder-slate-600' : ''}`}
+                  />
+                  
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={4}
+                    className={`w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all resize-none ${theme === 'light' ? 'bg-sky-100/50 border-sky-300 text-slate-900 placeholder-slate-600' : ''}`}
+                  />
+                  
+                  <motion.button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full px-8 py-3 bg-gradient-cyber rounded-full text-white font-semibold text-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2 ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+                    whileHover={!isLoading ? { scale: 1.05 } : {}}
+                    whileTap={!isLoading ? { scale: 0.95 } : {}}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader size={20} className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={20} />
+                        Send Message
+                      </>
+                    )}
+                  </motion.button>
+                  
+                  {submitStatus === 'success' && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-center"
+                    >
+                      ✅ Message sent successfully! I'll get back to you soon.
+                    </motion.div>
+                  )}
+                  
+                  {submitStatus === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-center"
+                    >
+                      ❌ Failed to send message. Please try again or email me directly.
+                    </motion.div>
+                  )}
+                </div>
+              </form>
             </div>
           </motion.div>
 
@@ -171,7 +289,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-center"
           >
-            <p className="text-gray-400 mb-6">Or find me on social media</p>
+            <p className={`mb-6 ${theme === 'light' ? 'text-slate-600' : 'text-gray-400'}`}>Or find me on social media</p>
             <div className="flex justify-center gap-6">
               {socialLinks.map((social, index) => (
                 <motion.a
@@ -198,7 +316,7 @@ const Contact = () => {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="relative z-10 mt-20 pt-8 border-t border-white/10"
+        className="relative z-10 mt-8 pt-4 pb-4 border-t border-white/10"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-gray-400">
@@ -216,4 +334,3 @@ const Contact = () => {
 }
 
 export default Contact
-

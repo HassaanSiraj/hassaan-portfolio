@@ -42,6 +42,7 @@ I'm **Hassaan Siraj**, a passionate Full Stack Developer with **5+ years of expe
 - **Icons**: Lucide React
 - **Testing**: RSpec, Jest
 - **Build Tool**: npm
+- **Email**: EmailJS for contact form functionality
 
 ## 📦 Getting Started
 
@@ -142,6 +143,50 @@ Edit `app/layout.tsx` to update:
 - Keywords
 - Open Graph tags
 - Twitter card information
+
+
+### Configure EmailJS for Contact Form
+
+The portfolio includes a functional contact form powered by **EmailJS** that sends emails directly to your inbox without requiring a backend server.
+
+**Setup Instructions:**
+
+1. **Create an EmailJS Account**
+   - Go to [emailjs.com](https://www.emailjs.com) and sign up for a free account
+   - Verify your email address
+
+2. **Get Your Credentials**
+   - **Public Key**: Account → API Keys → Copy Public Key
+   - **Service ID**: Email Services → Create/Select Service → Copy Service ID
+   - **Template ID**: Email Templates → Create Template → Copy Template ID
+
+3. **Configure Environment Variables**
+   - Create a `.env.local` file in the project root (if not already created)
+   - Add your EmailJS credentials:
+     ```bash
+     NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key_here
+     NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id_here
+     NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id_here
+     ```
+
+4. **Email Template Variables**
+   - When creating your EmailJS template, use these variables:
+     - `{{name}}` - Visitor's name
+     - `{{email}}` - Visitor's email
+     - `{{message}}` - Visitor's message
+     - `{{time}}` - Timestamp of submission
+
+5. **Test the Contact Form**
+   - Run `npm run dev`
+   - Fill out the contact form in the Contact section
+   - Click "Send Message"
+   - Check your email to verify it works!
+
+**Free Tier Details:**
+- 200 emails per month
+- For higher volume, upgrade your EmailJS plan
+
+For detailed setup instructions, see [EMAILJS_SETUP.md](./EMAILJS_SETUP.md)
 
 ## 📱 Portfolio Sections
 

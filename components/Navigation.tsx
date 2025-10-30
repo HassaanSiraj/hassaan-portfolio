@@ -25,6 +25,11 @@ const Navigation = () => {
     { name: 'Contact', href: '#contact' },
   ]
 
+  const handleLetsTalk = () => {
+    // Opens LinkedIn messaging - sends message intent to your profile
+    window.open('https://www.linkedin.com/in/hassaansiraj/', '_blank')
+  }
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -66,14 +71,14 @@ const Navigation = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-cyber group-hover:w-full transition-all duration-300"></span>
               </motion.a>
             ))}
-            <motion.a
-              href="#contact"
-              className="px-6 py-2 rounded-full bg-gradient-cyber text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+            <motion.button
+              onClick={handleLetsTalk}
+              className="px-6 py-2 rounded-full bg-gradient-cyber text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Let's Talk
-            </motion.a>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -103,13 +108,15 @@ const Navigation = () => {
                 {item.name}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="block mt-4 px-6 py-2 text-center rounded-full bg-gradient-cyber text-white font-semibold"
-              onClick={() => setIsMobileMenuOpen(false)}
+            <button
+              onClick={() => {
+                handleLetsTalk()
+                setIsMobileMenuOpen(false)
+              }}
+              className="block w-full mt-4 px-6 py-2 text-center rounded-full bg-gradient-cyber text-white font-semibold cursor-pointer"
             >
               Let's Talk
-            </a>
+            </button>
           </motion.div>
         )}
       </div>
@@ -146,4 +153,3 @@ const Navigation = () => {
 }
 
 export default Navigation
-

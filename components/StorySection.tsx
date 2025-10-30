@@ -157,29 +157,6 @@ const StorySection = () => {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="text-center mt-16"
-        >
-          <p className="text-xl text-gray-400 mb-6 font-mono">
-            // The journey continues...
-          </p>
-          <motion.div
-            animate={{ 
-              scale: [1, 1.05, 1],
-            }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <span className="text-4xl">🚀</span>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   )

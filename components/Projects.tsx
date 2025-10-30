@@ -200,24 +200,6 @@ const Projects = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="text-center mt-16"
-        >
-          <p className="text-gray-400 mb-6">Want to see more of my work?</p>
-          <motion.a
-            href="#contact"
-            className="inline-block px-8 py-4 bg-gradient-cyber rounded-full text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Let's Connect
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   )
